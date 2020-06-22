@@ -1,0 +1,25 @@
+{
+  "name": "table-pure-js",
+  "version": "1.0.0",
+  "description": "Excel like app on pure JavaScript for fun",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VaskoDeGama/table-pure-js.git"
+  },
+  "keywords": [
+    "pure",
+    "js",
+    "javascript",
+    "table"
+  ],
+  "author": "Vasiliy Kamenyuk <karmenyuk@yandex.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VaskoDeGama/table-pure-js/issues"
+  },
+  "homepage": "https://github.com/VaskoDeGama/table-pure-js#readme"
+}

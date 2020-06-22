@@ -109,3 +109,4 @@ dist
 .idea/table-pure-js.iml
 .idea/vcs.xml
 
+package-lock.json
