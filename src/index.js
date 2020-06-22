@@ -1,3 +1,3 @@
-import './module'
+import './scss/index.scss'
 
-console.log('Start up');
+console.log('It is ALIVE!')
