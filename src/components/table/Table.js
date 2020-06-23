@@ -8,6 +8,7 @@ export class Table extends TableComponent {
   constructor($root) {
     super($root, {
       name: 'Table',
+      listeners: [],
     })
   }
 

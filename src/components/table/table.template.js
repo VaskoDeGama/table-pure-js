@@ -8,13 +8,20 @@ function createCell() {
 }
 
 function createCol(col) {
-  return `<div class="column">${col}</div>`
+  return `<div class="column">
+              ${col}
+              <div class="col-resize"></div>
+          </div>`
 }
 
 function createRow(rowNumber, content) {
+  const resizer = rowNumber ? '<div class="row-resize"></div>' : ''
   return `
      <div class="row">
-        <div class="row-info">${rowNumber || ''}</div>
+        <div class="row-info">
+          ${rowNumber || ''}
+          ${resizer}
+        </div>
         <div class="row-data">${content}</div>
      </div>
   `
