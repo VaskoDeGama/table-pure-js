@@ -14,12 +14,18 @@ const jsLoaders = () => {
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env'],
+        plugins: ['@babel/plugin-proposal-class-properties']
       },
     },
   ]
 
   if (isDev) {
-    loaders.push('eslint-loader')
+    loaders.push({
+      loader: 'eslint-loader',
+      options: {
+        fix: false
+      }
+    })
   }
   return loaders
 }
@@ -27,6 +33,7 @@ const jsLoaders = () => {
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
+  stats: 'errors-only',
   mode: 'development',
   entry: ['@babel/polyfill', './index.js'],
   output: {
