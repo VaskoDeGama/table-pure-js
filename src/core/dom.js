@@ -18,6 +18,14 @@ class Dom {
     return this
   }
 
+  get data() {
+    return this.$el.dataset
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector)
+  }
+
   on(eventType, callback) {
     this.$el.addEventListener(eventType, callback)
     return this
@@ -37,8 +45,24 @@ class Dom {
     } else {
       this.$el.appendChild(node)
     }
-
     return this
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector))
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
+
+  css(styles = {}) {
+    const keys = Object.keys(styles)
+    if (keys.length === 0) {
+      return this.$el
+    }
+    keys.forEach(key => this.$el.style[key] = styles[key])
+    return this.$el
   }
 }
 
