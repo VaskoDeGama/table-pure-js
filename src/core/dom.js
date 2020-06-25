@@ -26,6 +26,10 @@ class Dom {
     return this.$el.querySelectorAll(selector)
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
   on(eventType, callback) {
     this.$el.addEventListener(eventType, callback)
     return this
@@ -63,6 +67,25 @@ class Dom {
     }
     keys.forEach(key => this.$el.style[key] = styles[key])
     return this.$el
+  }
+
+  addClass(className) {
+    return this.$el.classList.add(className)
+  }
+
+  removeClass(className) {
+    return this.$el.classList.remove(className)
+  }
+
+  id(parse) {
+    if (parse) {
+      const [row, col] = this.id().split(':')
+      return {
+        row: +row,
+        col: +col
+      }
+    }
+    return this.data.id
   }
 }
 
