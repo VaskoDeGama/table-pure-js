@@ -77,6 +77,11 @@ class Dom {
     return this.$el.classList.remove(className)
   }
 
+  focus() {
+    this.$el.focus()
+    return this
+  }
+
   id(parse) {
     if (parse) {
       const [row, col] = this.id().split(':')
