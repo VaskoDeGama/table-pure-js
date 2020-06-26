@@ -4,10 +4,11 @@ import {TableComponent} from '@core/TableComponent'
 export class Formula extends TableComponent {
   static className = 'excel__formula'
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'click'],
+      ...options
     })
   }
 
@@ -20,7 +21,8 @@ export class Formula extends TableComponent {
   }
 
   onInput(event) {
-    console.log('Formula: onInput', event.target.textContent.trim())
+    const text = event.target.textContent.trim()
+    this.observer.dispatch('end of input', text)
   }
 
   onClick(event) {

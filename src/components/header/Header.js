@@ -4,9 +4,10 @@ import {TableComponent} from '@core/TableComponent'
 export class Header extends TableComponent {
   static className = 'excel__header'
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Header',
+      ...options
     })
   }
 
