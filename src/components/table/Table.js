@@ -16,7 +16,7 @@ export class Table extends TableComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options
     })
   }
@@ -33,8 +33,16 @@ export class Table extends TableComponent {
     super.init()
     const $cell = this.$root.find('[data-id="0:0"]')
     this.selection.select($cell)
-    this.observer.subscribe('end of input',
-        text => this.selection.current.text(text)
+    this.observer.subscribe('formulaOnInput',
+        text => {
+          this.selection.current.text(text)
+          console.log(text)
+        }
+    )
+    this.observer.subscribe('changeFocus',
+        () => {
+          this.selection.current.focus()
+        }
     )
   }
 
@@ -68,6 +76,13 @@ export class Table extends TableComponent {
         const $next = this.$root.find(nextSelector(key, id))
         this.selection.select($next)
       }
+    }
+  }
+
+  onInput(event) {
+    if (itCell(event)) {
+      const $target = $(event.target)
+      this.observer.dispatch('tableOnCellInput', $target.text())
     }
   }
 }

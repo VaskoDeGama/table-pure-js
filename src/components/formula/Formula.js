@@ -1,5 +1,5 @@
 import {TableComponent} from '@core/TableComponent'
-
+import {$} from '@core/dom'
 
 export class Formula extends TableComponent {
   static className = 'excel__formula'
@@ -7,9 +7,19 @@ export class Formula extends TableComponent {
   constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input', 'click'],
+      listeners: ['input', 'click', 'keydown'],
       ...options
     })
+  }
+
+  init() {
+    super.init()
+    this.observer.subscribe('tableOnCellInput',
+        text => {
+          const $input = this.$root.find('.input')
+          $input.text(text)
+        }
+    )
   }
 
 
@@ -22,10 +32,20 @@ export class Formula extends TableComponent {
 
   onInput(event) {
     const text = event.target.textContent.trim()
-    this.observer.dispatch('end of input', text)
+    this.observer.dispatch('formulaOnInput', text)
   }
 
   onClick(event) {
 
+  }
+
+  onKeydown(event) {
+    const keyCode = event.code
+    const $target = $(event.target)
+    if (keyCode === 'Enter') {
+      event.preventDefault()
+      $target.text('')
+      this.observer.dispatch('changeFocus')
+    }
   }
 }
