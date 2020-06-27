@@ -43,7 +43,7 @@ export class Table extends TableComponent {
 
   selectCell($cell) {
     this.selection.select($cell)
-    this.$dispatch('table:select', $cell)
+    this.$emit('table:select', $cell)
   }
 
   onMousedown(event) {
@@ -56,7 +56,7 @@ export class Table extends TableComponent {
             .map(id => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectGroup($cells)
       } else {
-        this.selection.select($target)
+        this.selectCell($target)
       }
     }
   }
@@ -75,7 +75,7 @@ export class Table extends TableComponent {
         const id = $(event.target).id(true)
         const $next = this.$root.find(nextSelector(key, id))
         this.selection.select($next)
-        this.$dispatch('table:select', $next)
+        this.$emit('table:select', $next)
         this.selectCell($next)
       }
     }
@@ -84,7 +84,7 @@ export class Table extends TableComponent {
   onInput(event) {
     if (itCell(event)) {
       const $target = $(event.target)
-      this.$dispatch('table:cell:input', $target.text())
+      this.$emit('table:cell:input', $target.text())
     }
   }
 }

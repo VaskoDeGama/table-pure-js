@@ -6,11 +6,13 @@ export class Container {
     this.$el = $(selector)
     this.observer = new Observer()
     this.components = options.components || []
+    this.store = options.store
   }
 
   getRoot() {
     const componentOptions = {
-      observer: this.observer
+      observer: this.observer,
+      store: this.store
     }
     const $root = $.create('div', 'excel')
     this.components = this.components.map(Component => {

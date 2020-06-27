@@ -32,7 +32,7 @@ export class Formula extends TableComponent {
   }
 
   onInput(event) {
-    this.$dispatch('formula:OnInput', $(event.target).text())
+    this.$emit('formula:OnInput', $(event.target).text())
   }
 
 
@@ -43,7 +43,7 @@ export class Formula extends TableComponent {
     if (keys.includes(keyCode)) {
       event.preventDefault()
       $target.text('')
-      this.$dispatch('formula:done')
+      this.$emit('formula:done')
     }
   }
 }
