@@ -7,7 +7,7 @@ export class Formula extends TableComponent {
   constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input', 'click', 'keydown'],
+      listeners: ['input', 'keydown'],
       ...options
     })
   }
@@ -35,9 +35,6 @@ export class Formula extends TableComponent {
     this.$dispatch('formula:OnInput', $(event.target).text())
   }
 
-  onClick(event) {
-
-  }
 
   onKeydown(event) {
     const keyCode = event.code
