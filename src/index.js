@@ -9,7 +9,11 @@ import './scss/index.scss'
 import {storage} from '@core/Utils'
 
 
-const store = createStore(rootReducer, storage('AppState'))
+const store = createStore(rootReducer, {
+  colState: {},
+  rowState: {},
+  ...storage('AppState')
+})
 
 store.subscribe(state => {
   console.log('App state:', state)
