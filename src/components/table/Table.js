@@ -39,6 +39,7 @@ export class Table extends TableComponent {
     this.$sub('formula:done', () => {
       this.selection.current.focus()
     })
+    this.$subscribe(state => console.log(state))
   }
 
   selectCell($cell) {
@@ -46,9 +47,18 @@ export class Table extends TableComponent {
     this.$emit('table:select', $cell)
   }
 
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch({type: 'TABLE_RESIZE', data})
+    } catch (e) {
+      console.warn('Resize error', e)
+    }
+  }
+
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     } else if (itCell(event)) {
       const $target = $(event.target)
       if (event.shiftKey) {

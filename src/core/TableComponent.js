@@ -7,10 +7,17 @@ export class TableComponent extends DomListener {
     this.observer = options.observer
     this.store = options.store
     this.unsubscribers = []
+    this.storeSub = null
     this.prepare()
   }
 
-  $
+  $dispatch(action) {
+    this.storeSub = this.store.dispatch(action)
+  }
+
+  $subscribe(fn) {
+    this.store.subscribe(fn)
+  }
 
   $emit(event, ...args) {
     this.observer.emit(event, ...args)
@@ -36,5 +43,6 @@ export class TableComponent extends DomListener {
   destroy() {
     this.removeDOMListeners()
     this.unsubscribers.forEach(unsub => unsub())
+    this.storeSub.unsubscribe()
   }
 }

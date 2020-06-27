@@ -8,8 +8,10 @@ import {rootReducer} from '@/store/rootReducer'
 import './scss/index.scss'
 
 
-const store = createStore(rootReducer)
-console.log(store)
+const store = createStore(rootReducer, {
+  colState: {}
+
+})
 
 const App = new Container('#app', {
   components: [Header, Toolbar, Formula, Table],
