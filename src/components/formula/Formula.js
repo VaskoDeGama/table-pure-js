@@ -14,12 +14,13 @@ export class Formula extends TableComponent {
 
   init() {
     super.init()
-    this.observer.subscribe('tableOnCellInput',
-        text => {
-          const $input = this.$root.find('.input')
-          $input.text(text)
-        }
+    this.$input = this.$root.find('.input')
+    this.$sub('table:cell:input',
+        text => this.$input.text(text)
     )
+    this.$sub('table:select', $cell => {
+      this.$input.text($cell.text())
+    })
   }
 
 
@@ -31,8 +32,7 @@ export class Formula extends TableComponent {
   }
 
   onInput(event) {
-    const text = event.target.textContent.trim()
-    this.observer.dispatch('formulaOnInput', text)
+    this.$dispatch('formula:OnInput', $(event.target).text())
   }
 
   onClick(event) {
@@ -42,10 +42,11 @@ export class Formula extends TableComponent {
   onKeydown(event) {
     const keyCode = event.code
     const $target = $(event.target)
-    if (keyCode === 'Enter') {
+    const keys = ['Enter', 'Tab']
+    if (keys.includes(keyCode)) {
       event.preventDefault()
       $target.text('')
-      this.observer.dispatch('changeFocus')
+      this.$dispatch('formula:done')
     }
   }
 }
