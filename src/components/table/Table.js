@@ -32,18 +32,18 @@ export class Table extends TableComponent {
   init() {
     super.init()
     const $cell = this.$root.find('[data-id="0:0"]')
+    this.selectCell($cell)
+    this.$sub('formula:OnInput', text => {
+      this.selection.current.text(text)
+    })
+    this.$sub('formula:done', () => {
+      this.selection.current.focus()
+    })
+  }
+
+  selectCell($cell) {
     this.selection.select($cell)
-    this.observer.subscribe('formulaOnInput',
-        text => {
-          this.selection.current.text(text)
-          console.log(text)
-        }
-    )
-    this.observer.subscribe('changeFocus',
-        () => {
-          this.selection.current.focus()
-        }
-    )
+    this.$dispatch('table:select', $cell)
   }
 
   onMousedown(event) {
@@ -75,6 +75,8 @@ export class Table extends TableComponent {
         const id = $(event.target).id(true)
         const $next = this.$root.find(nextSelector(key, id))
         this.selection.select($next)
+        this.$dispatch('table:select', $next)
+        this.selectCell($next)
       }
     }
   }
@@ -82,7 +84,7 @@ export class Table extends TableComponent {
   onInput(event) {
     if (itCell(event)) {
       const $target = $(event.target)
-      this.observer.dispatch('tableOnCellInput', $target.text())
+      this.$dispatch('table:cell:input', $target.text())
     }
   }
 }

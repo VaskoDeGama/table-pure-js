@@ -23,6 +23,9 @@ class Dom {
       this.$el.textContent = text
       return this
     }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
     return this.$el.textContent.trim()
   }
 
@@ -71,18 +74,20 @@ class Dom {
   css(styles = {}) {
     const keys = Object.keys(styles)
     if (keys.length === 0) {
-      return this.$el
+      return this
     }
     keys.forEach(key => this.$el.style[key] = styles[key])
-    return this.$el
+    return this
   }
 
   addClass(className) {
-    return this.$el.classList.add(className)
+    this.$el.classList.add(className)
+    return this
   }
 
   removeClass(className) {
-    return this.$el.classList.remove(className)
+    this.$el.classList.remove(className)
+    return this
   }
 
   focus() {
