@@ -6,11 +6,14 @@ import {Header} from '@/components/header/Header'
 import {createStore} from '@core/createStore'
 import {rootReducer} from '@/store/rootReducer'
 import './scss/index.scss'
+import {storage} from '@core/Utils'
 
 
-const store = createStore(rootReducer, {
-  colState: {}
+const store = createStore(rootReducer, storage('AppState'))
 
+store.subscribe(state => {
+  console.log('App state:', state)
+  storage('AppState', state)
 })
 
 const App = new Container('#app', {

@@ -8,6 +8,7 @@ import {shouldResize,
   nextSelector
 } from '@/components/table/table.functions'
 import {TableSelection} from '@/components/table/TableSelection'
+import * as actions from '@/store/actions'
 
 
 export class Table extends TableComponent {
@@ -22,7 +23,7 @@ export class Table extends TableComponent {
   }
 
   toHTML() {
-    return createTable(20)
+    return createTable(20, this.store.getState())
   }
 
   prepare() {
@@ -39,7 +40,6 @@ export class Table extends TableComponent {
     this.$sub('formula:done', () => {
       this.selection.current.focus()
     })
-    this.$subscribe(state => console.log(state))
   }
 
   selectCell($cell) {
@@ -50,7 +50,8 @@ export class Table extends TableComponent {
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
-      this.$dispatch({type: 'TABLE_RESIZE', data})
+      console.log(data)
+      this.$dispatch(actions.tableResize(data))
     } catch (e) {
       console.warn('Resize error', e)
     }
