@@ -7,13 +7,10 @@ import {createStore} from '@core/createStore'
 import {rootReducer} from '@/store/rootReducer'
 import './scss/index.scss'
 import {storage} from '@core/Utils'
+import {initialState} from '@/store/initialState'
 
 
-const store = createStore(rootReducer, {
-  colState: {},
-  rowState: {},
-  ...storage('AppState')
-})
+const store = createStore(rootReducer, initialState)
 
 store.subscribe(state => {
   console.log('App state:', state)
