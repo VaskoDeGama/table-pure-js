@@ -8,6 +8,7 @@ export class Formula extends TableComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribe: ['currentText'],
       ...options
     })
   }
@@ -15,14 +16,8 @@ export class Formula extends TableComponent {
   init() {
     super.init()
     this.$input = this.$root.find('.input')
-    // this.$sub('table:cell:input',
-    //     text => this.$input.text(text)
-    // )
     this.$sub('table:select', $cell => {
       this.$input.text($cell.text())
-    })
-    this.$subscribe(state => {
-      this.$input.text(state.currentText)
     })
   }
 
@@ -38,14 +33,16 @@ export class Formula extends TableComponent {
     this.$emit('formula:OnInput', $(event.target).text())
   }
 
+  storeChanged(changes) {
+    this.$input.text(changes.currentText)
+  }
+
 
   onKeydown(event) {
     const keyCode = event.code
-    const $target = $(event.target)
     const keys = ['Enter', 'Tab']
     if (keys.includes(keyCode)) {
       event.preventDefault()
-      $target.text('')
       this.$emit('formula:done')
     }
   }

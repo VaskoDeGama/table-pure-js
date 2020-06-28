@@ -13,7 +13,6 @@ import {initialState} from '@/store/initialState'
 const store = createStore(rootReducer, initialState)
 
 store.subscribe(state => {
-  console.log('App state:', state)
   storage('AppState', state)
 })
 

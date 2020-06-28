@@ -18,6 +18,7 @@ export class Table extends TableComponent {
     super($root, {
       name: 'Table',
       listeners: ['mousedown', 'keydown', 'input'],
+      subscribe: ['currentText'],
       ...options
     })
   }
@@ -51,7 +52,6 @@ export class Table extends TableComponent {
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
-      console.log(data)
       this.$dispatch(actions.tableResize(data))
     } catch (e) {
       console.warn('Resize error', e)
