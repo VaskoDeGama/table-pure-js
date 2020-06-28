@@ -15,11 +15,14 @@ export class Formula extends TableComponent {
   init() {
     super.init()
     this.$input = this.$root.find('.input')
-    this.$sub('table:cell:input',
-        text => this.$input.text(text)
-    )
+    // this.$sub('table:cell:input',
+    //     text => this.$input.text(text)
+    // )
     this.$sub('table:select', $cell => {
       this.$input.text($cell.text())
+    })
+    this.$subscribe(state => {
+      this.$input.text(state.currentText)
     })
   }
 

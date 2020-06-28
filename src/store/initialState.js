@@ -2,7 +2,10 @@ import {storage} from '@core/Utils'
 
 const defaultState = {
   rowState: {},
-  colState: {}
+  colState: {},
+  dataState: {},
+  currentText: '',
+
 }
 
 

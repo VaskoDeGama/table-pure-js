@@ -36,6 +36,7 @@ export class Table extends TableComponent {
     this.selectCell($cell)
     this.$sub('formula:OnInput', text => {
       this.selection.current.text(text)
+      this.updateTextInStore(text)
     })
     this.$sub('formula:done', () => {
       this.selection.current.focus()
@@ -92,10 +93,16 @@ export class Table extends TableComponent {
     }
   }
 
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }))
+  }
+
   onInput(event) {
     if (itCell(event)) {
-      const $target = $(event.target)
-      this.$emit('table:cell:input', $target.text())
+      this.updateTextInStore($(event.target).text())
     }
   }
 }
