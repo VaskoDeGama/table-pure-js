@@ -1,4 +1,6 @@
 import {TableComponent} from '@core/TableComponent'
+import {createToolbar} from '@/components/toolbar/toolbar.template'
+import {$} from '@core/dom'
 
 
 export class Toolbar extends TableComponent {
@@ -7,30 +9,19 @@ export class Toolbar extends TableComponent {
   constructor($root, options) {
     super($root, {
       name: 'Toolbar',
+      listeners: ['click'],
       ...options
     })
   }
 
   toHTML() {
-    return `
-            <div class="button">
-        <i class="material-icons">format_align_left</i>
-      </div>
-      <div class="button">
-        <i class="material-icons">format_align_center</i>
-      </div>
-      <div class="button">
-        <i class="material-icons">format_align_right</i>
-      </div>
-      <div class="button">
-        <i class="material-icons">format_bold</i>
-      </div>
-      <div class="button">
-        <i class="material-icons">format_italic</i>
-      </div>
-      <div class="button">
-        <i class="material-icons">format_underline</i>
-      </div>
-            `
+    return createToolbar()
+  }
+
+  onClick(event) {
+    const $target = $(event.target)
+    if ($target.data.type === 'button') {
+      console.log($target.data.value)
+    }
   }
 }
