@@ -1,5 +1,5 @@
-import {TableComponent} from '@core/TableComponent'
 import {$} from '@core/dom'
+import {TableComponent} from '@core/TableComponent'
 
 export class Formula extends TableComponent {
   static className = 'excel__formula'
@@ -13,35 +13,35 @@ export class Formula extends TableComponent {
     })
   }
 
-  init() {
-    super.init()
-    this.$input = this.$root.find('.input')
-    this.$sub('table:select', $cell => {
-      this.$input.text($cell.text())
-    })
-  }
-
-
   toHTML() {
     return `
-    <div class="info">fx</div>
-      <div class="input" contenteditable spellcheck="false"></div>
+      <div class="info">fx</div>
+      <div id="formula" class="input" contenteditable spellcheck="false"></div>
     `
   }
 
+  init() {
+    super.init()
+
+    this.$formula = this.$root.find('#formula')
+
+    this.$sub('table:select', $cell => {
+      this.$formula.text($cell.text())
+    })
+  }
+
+  storeChanged({currentText}) {
+    console.log('change formual state:', currentText)
+    this.$formula.text(currentText)
+  }
+
   onInput(event) {
-    this.$emit('formula:OnInput', $(event.target).text())
+    this.$emit('formula:input', $(event.target).text())
   }
-
-  storeChanged(changes) {
-    this.$input.text(changes.currentText)
-  }
-
 
   onKeydown(event) {
-    const keyCode = event.code
     const keys = ['Enter', 'Tab']
-    if (keys.includes(keyCode)) {
+    if (keys.includes(event.key)) {
       event.preventDefault()
       this.$emit('formula:done')
     }

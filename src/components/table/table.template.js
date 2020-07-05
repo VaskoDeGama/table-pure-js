@@ -1,3 +1,6 @@
+import {toInlineStyles} from '@core/Utils'
+import {defaultStyles} from '@/constants'
+
 const CODES = {
   A: 65,
   Z: 90
@@ -20,12 +23,16 @@ function toCell(state, row) {
     const width = getWidth(state.colState, col)
     const id = `${row}:${col}`
     const data = state.dataState[id] || ''
+    const styles = toInlineStyles({
+      ...defaultStyles,
+      ...state.styleState[id]
+    })
     return `<div class="cell" 
             contenteditable 
             data-col="${col}" 
             data-type="cell"
             data-id="${id}"
-            style="width: ${width}"
+            style="${styles}; width: ${width}"
             >${data}</div>`
   }
 }

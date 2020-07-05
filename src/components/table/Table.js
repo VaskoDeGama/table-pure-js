@@ -9,6 +9,7 @@ import {shouldResize,
 } from '@/components/table/table.functions'
 import {TableSelection} from '@/components/table/TableSelection'
 import * as actions from '@/store/actions'
+import {defaultStyles} from '@/constants'
 
 
 export class Table extends TableComponent {
@@ -18,7 +19,6 @@ export class Table extends TableComponent {
     super($root, {
       name: 'Table',
       listeners: ['mousedown', 'keydown', 'input'],
-      subscribe: ['currentText'],
       ...options
     })
   }
@@ -33,20 +33,31 @@ export class Table extends TableComponent {
 
   init() {
     super.init()
-    const $cell = this.$root.find('[data-id="0:0"]')
-    this.selectCell($cell)
-    this.$sub('formula:OnInput', text => {
+    this.selectCell(this.$root.find('[data-id="0:0"]'))
+
+    this.$sub('formula:input', text => {
       this.selection.current.text(text)
       this.updateTextInStore(text)
     })
+
     this.$sub('formula:done', () => {
       this.selection.current.focus()
+    })
+
+    this.$sub('toolbar:applyStyle', value => {
+      this.selection.applyStyle(value)
+      this.$dispatch(actions.applyStyle({
+        value,
+        ids: this.selection.selectedIds
+      }))
     })
   }
 
   selectCell($cell) {
     this.selection.select($cell)
     this.$emit('table:select', $cell)
+    const styles = $cell.getStyles(Object.keys(defaultStyles))
+    this.$dispatch(actions.changeStyles(styles))
   }
 
   async resizeTable(event) {
@@ -75,19 +86,21 @@ export class Table extends TableComponent {
 
   onKeydown(event) {
     if (itCell(event)) {
-      const keys = ['Tab',
+      const keys = [
+        'Tab',
         'Enter',
         'ArrowRight',
         'ArrowLeft',
         'ArrowUp',
-        'ArrowDown']
+        'ArrowDown'
+      ]
+
       const {key} = event
+
       if (keys.includes(key) && !event.shiftKey) {
         event.preventDefault()
         const id = $(event.target).id(true)
         const $next = this.$root.find(nextSelector(key, id))
-        this.selection.select($next)
-        this.$emit('table:select', $next)
         this.selectCell($next)
       }
     }
