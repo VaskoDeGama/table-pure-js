@@ -1,5 +1,5 @@
 import {$} from '@core/dom'
-import {ActiveRoute} from '@core/routes/ActiveRoute'
+// import {ActiveRoute} from '@core/routes/ActiveRoute'
 
 export class Routes {
   constructor(selector, routes = {}) {
@@ -20,10 +20,10 @@ export class Routes {
   }
 
   changePageHandler() {
-    console.log(ActiveRoute.path)
-    console.log(ActiveRoute.param)
-
-    this.$placeholder.html(`<h1>${ActiveRoute.path}</h1>`)
+    const Page = this.routes.tcell
+    const page = new Page()
+    this.$placeholder.append(page.getRoot())
+    page.afterRender()
   }
 
   destroy() {

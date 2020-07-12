@@ -3,8 +3,7 @@ import {Observer} from '@core/Observer'
 import {StoreSubscriber} from '@core/StoreSubscriber'
 
 export class Container {
-  constructor(selector, options) {
-    this.$el = $(selector)
+  constructor( options) {
     this.observer = new Observer()
     this.components = options.components || []
     this.store = options.store
@@ -27,8 +26,7 @@ export class Container {
     return $root
   }
 
-  render() {
-    this.$el.append(this.getRoot())
+  init() {
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
   }
