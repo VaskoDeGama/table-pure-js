@@ -38,10 +38,11 @@ export function resizeHandler($root, event) {
         $parent.css({height: value + 'px'})
       }
       res({
-        type: type,
-        value: value,
-        id: type === 'col' ? $parent.data.col : $parent.data.row
+        type,
+        value,
+        id: $parent.data[type]
       })
+
       $resizer.css({
         opacity: 0,
         bottom: 0,

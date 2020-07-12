@@ -21,8 +21,9 @@ export class StoreSubscriber {
           })
         }
       })
+
+      this.prevState = this.store.getState()
     })
-    this.prevState = this.store.getState()
   }
 
   unsubscribeFromStore() {

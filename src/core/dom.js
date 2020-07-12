@@ -10,7 +10,7 @@ class Dom {
       this.$el.innerHTML = html
       return this
     }
-    return this.$el.innerHTML.trim()
+    return this.$el.outerHTML.trim()
   }
 
   clearHtml() {

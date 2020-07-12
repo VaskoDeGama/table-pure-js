@@ -8,7 +8,7 @@ const CODES = {
 }
 
 const DEFAULT_WIDTH = 120
-const DEFAULT_HEIGHT = 20
+const DEFAULT_HEIGHT = 24
 
 function getWidth(state, index) {
   return (state[index] || DEFAULT_WIDTH) + 'px'
@@ -18,30 +18,36 @@ function getHeight(state, index) {
   return (state[index] || DEFAULT_HEIGHT) + 'px'
 }
 
-
 function toCell(state, row) {
   return function(_, col) {
-    const width = getWidth(state.colState, col)
     const id = `${row}:${col}`
-    const data = state.dataState[id] || ''
+    const width = getWidth(state.colState, col)
+    const data = state.dataState[id]
     const styles = toInlineStyles({
       ...defaultStyles,
       ...state.styleState[id]
     })
-    return `<div class="cell" 
+    return `
+          <div 
+            class="cell" 
             contenteditable 
             data-col="${col}" 
             data-type="cell"
             data-id="${id}"
             data-value="${data || ''}"
             style="${styles}; width: ${width}"
-            >${parse(data)}</div>`
+           >${parse(data) || ''}</div>
+`
   }
 }
 
 function createCol({col, index, width}) {
-  return `<div class="column"  style="width: ${width}"
-  data-type="resizable" data-col="${index}">${col}
+  return `<div 
+           class="column"  
+           style="width: ${width}"
+           data-type="resizable" 
+           data-col="${index}"
+           >  ${col}
           <div class="col-resize" data-resize="col"></div>
           </div>`
 }

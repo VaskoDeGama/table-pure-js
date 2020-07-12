@@ -35,8 +35,8 @@ export class Toolbar extends TableStateComponent {
   onClick(event) {
     const $target = $(event.target)
     if ($target.data.type === 'button') {
-      const style = JSON.parse($target.data.value)
-      this.$emit('toolbar:applyStyle', style)
+      const value = JSON.parse($target.data.value)
+      this.$emit('toolbar:applyStyle', value)
     }
   }
 }

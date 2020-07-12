@@ -30,8 +30,8 @@ export class Formula extends TableComponent {
     })
   }
 
-  storeChanged({currentText}) {
-    this.$formula.text(currentText)
+  storeChanged(changes) {
+    this.$formula.text(changes.currentText)
   }
 
   onInput(event) {

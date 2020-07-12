@@ -3,7 +3,7 @@ import {$} from '@core/dom'
 import {createTable} from '@/components/table/table.template'
 import {resizeHandler} from '@/components/table/table.resize'
 import {shouldResize,
-  itCell,
+  isCell,
   matrix,
   nextSelector
 } from '@/components/table/table.functions'
@@ -37,8 +37,9 @@ export class Table extends TableComponent {
     this.selectCell(this.$root.find('[data-id="0:0"]'))
 
     this.$sub('formula:input', value => {
-      this.selection.current.attr('data-value', value)
-      this.selection.current.text(parse(value))
+      this.selection.current
+          .attr('data-value', value)
+          .text(parse(value))
       this.updateTextInStore(value)
     })
 
@@ -67,14 +68,14 @@ export class Table extends TableComponent {
       const data = await resizeHandler(this.$root, event)
       this.$dispatch(actions.tableResize(data))
     } catch (e) {
-      console.warn('Resize error', e)
+      console.warn('Resize error', e.message)
     }
   }
 
   onMousedown(event) {
     if (shouldResize(event)) {
-      this.resizeTable(event).then(r => r)
-    } else if (itCell(event)) {
+      this.resizeTable(event)
+    } else if (isCell(event)) {
       const $target = $(event.target)
       if (event.shiftKey) {
         const $cells = matrix($target, this.selection.current)
@@ -87,24 +88,22 @@ export class Table extends TableComponent {
   }
 
   onKeydown(event) {
-    if (itCell(event)) {
-      const keys = [
-        'Tab',
-        'Enter',
-        'ArrowRight',
-        'ArrowLeft',
-        'ArrowUp',
-        'ArrowDown'
-      ]
+    const keys = [
+      'Tab',
+      'Enter',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowUp',
+      'ArrowDown'
+    ]
 
-      const {key} = event
+    const {key} = event
 
-      if (keys.includes(key) && !event.shiftKey) {
-        event.preventDefault()
-        const id = this.selection.current.id(true)
-        const $next = this.$root.find(nextSelector(key, id))
-        this.selectCell($next)
-      }
+    if (keys.includes(key) && !event.shiftKey) {
+      event.preventDefault()
+      const id = this.selection.current.id(true)
+      const $next = this.$root.find(nextSelector(key, id))
+      this.selectCell($next)
     }
   }
 

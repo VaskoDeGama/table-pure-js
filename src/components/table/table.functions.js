@@ -4,7 +4,7 @@ export function shouldResize(event) {
   return event.target.dataset.resize
 }
 
-export function itCell(event) {
+export function isCell(event) {
   return event.target.dataset.type === 'cell'
 }
 
@@ -30,13 +30,13 @@ export function nextSelector(key, {row, col}) {
       col++
       break
     case 'ArrowLeft':
-      col = col - 1 < MIN ? 0 : col - 1
+      col = col - 1 < MIN ? MIN : col - 1
       break
     case 'ArrowRight':
       col++
       break
     case 'ArrowUp':
-      row = row - 1 < MIN ? 0 : row - 1
+      row = row - 1 < MIN ? MIN : row - 1
       break
     case 'ArrowDown':
       row++
