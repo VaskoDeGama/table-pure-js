@@ -114,8 +114,6 @@ export class Table extends TableComponent {
   }
 
   onInput(event) {
-    if (itCell(event)) {
-      this.updateTextInStore($(event.target).text())
-    }
+    this.updateTextInStore($(event.target).text())
   }
 }

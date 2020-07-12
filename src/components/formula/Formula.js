@@ -31,12 +31,12 @@ export class Formula extends TableComponent {
   }
 
   storeChanged({currentText}) {
-    console.log('change formual state:', currentText)
     this.$formula.text(currentText)
   }
 
   onInput(event) {
-    this.$emit('formula:input', $(event.target).text())
+    const text = $(event.target).text()
+    this.$emit('formula:input', text)
   }
 
   onKeydown(event) {
