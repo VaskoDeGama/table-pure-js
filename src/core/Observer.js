@@ -3,7 +3,16 @@ export class Observer {
     this.listeners = {}
   }
 
-  dispatch(event, ...args) {
+  onSub(event, fn) {
+    this.listeners[event] = this.listeners[event] || []
+    this.listeners[event].push(fn)
+    return () => {
+      this.listeners[event] = this.listeners[event]
+          .filter(listener => listener !== fn)
+    }
+  }
+
+  emit(event, ...args) {
     if (!Array.isArray(this.listeners[event])) {
       return false
     }
@@ -11,15 +20,6 @@ export class Observer {
       listener(...args)
     })
     return true
-  }
-
-  subscribe(event, fn) {
-    this.listeners[event] = this.listeners[event] || []
-    this.listeners[event].push(fn)
-    return () => {
-      this.listeners[event] = this.listeners[event]
-          .filter(listener => listener !== fn)
-    }
   }
 }
 

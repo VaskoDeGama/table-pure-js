@@ -12,7 +12,7 @@
   justify-content: space-between;
 
 
-  .input {
+  & .input {
     margin: 0;
     padding: 2px 7px;
     color: #000;
@@ -24,11 +24,11 @@
     outline: none;
     min-width: 1px;
 
-    :hover {
+    &:hover {
       border: 1px solid $border-color;
     }
 
-    :focus {
+    &:focus {
       border: 2px solid $header-focus-color;
     }
 

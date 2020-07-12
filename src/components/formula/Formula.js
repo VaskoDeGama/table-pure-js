@@ -1,5 +1,5 @@
-import {TableComponent} from '@core/TableComponent'
 import {$} from '@core/dom'
+import {TableComponent} from '@core/TableComponent'
 
 export class Formula extends TableComponent {
   static className = 'excel__formula'
@@ -8,42 +8,42 @@ export class Formula extends TableComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribe: ['currentText'],
       ...options
     })
   }
 
-  init() {
-    super.init()
-    this.$input = this.$root.find('.input')
-    this.$sub('table:cell:input',
-        text => this.$input.text(text)
-    )
-    this.$sub('table:select', $cell => {
-      this.$input.text($cell.text())
-    })
-  }
-
-
   toHTML() {
     return `
-    <div class="info">fx</div>
-      <div class="input" contenteditable spellcheck="false"></div>
+      <div class="info">fx</div>
+      <div id="formula" class="input" contenteditable spellcheck="false"></div>
     `
   }
 
-  onInput(event) {
-    this.$dispatch('formula:OnInput', $(event.target).text())
+  init() {
+    super.init()
+
+    this.$formula = this.$root.find('#formula')
+
+    this.$sub('table:select', $cell => {
+      this.$formula.text($cell.data.value)
+    })
   }
 
+  storeChanged(changes) {
+    this.$formula.text(changes.currentText)
+  }
+
+  onInput(event) {
+    const text = $(event.target).text()
+    this.$emit('formula:input', text)
+  }
 
   onKeydown(event) {
-    const keyCode = event.code
-    const $target = $(event.target)
     const keys = ['Enter', 'Tab']
-    if (keys.includes(keyCode)) {
+    if (keys.includes(event.key)) {
       event.preventDefault()
-      $target.text('')
-      this.$dispatch('formula:done')
+      this.$emit('formula:done')
     }
   }
 }

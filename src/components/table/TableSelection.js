@@ -13,14 +13,22 @@ export class TableSelection {
 
   select($el) {
     this.clear()
-    this.current = $el
-    this.group.push($el)
     $el.focus().addClass(TableSelection.className)
+    this.group.push($el)
+    this.current = $el
   }
 
   selectGroup($cells) {
     this.clear()
     this.group = $cells
     $cells.forEach($el => $el.addClass(TableSelection.className))
+  }
+
+  applyStyle(style) {
+    this.group.forEach($el => $el.css(style))
+  }
+
+  get selectedIds() {
+    return this.group.map($el => $el.id())
   }
 }
