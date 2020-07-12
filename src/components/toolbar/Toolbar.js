@@ -37,7 +37,6 @@ export class Toolbar extends TableStateComponent {
     if ($target.data.type === 'button') {
       const style = JSON.parse($target.data.value)
       this.$emit('toolbar:applyStyle', style)
-      this.setState(style)
     }
   }
 }

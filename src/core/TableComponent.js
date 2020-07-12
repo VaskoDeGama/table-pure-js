@@ -12,7 +12,7 @@ export class TableComponent extends DomListener {
   }
 
   $dispatch(action) {
-    this.storeSub = this.store.dispatch(action)
+    this.store.dispatch(action)
   }
 
   storeChanged() {

@@ -6,15 +6,19 @@ import {Header} from '@/components/header/Header'
 import {createStore} from '@core/createStore'
 import {rootReducer} from '@/store/rootReducer'
 import './scss/index.scss'
-import {storage} from '@core/Utils'
+import {storage, debounce} from '@core/Utils'
 import {initialState} from '@/store/initialState'
 
 
 const store = createStore(rootReducer, initialState)
 
-store.subscribe(state => {
+
+const stateListener = debounce( state => {
+  console.log('App storage:', state)
   storage('AppState', state)
-})
+}, 300)
+
+store.subscribe(stateListener)
 
 const App = new Container('#app', {
   components: [Header, Toolbar, Formula, Table],

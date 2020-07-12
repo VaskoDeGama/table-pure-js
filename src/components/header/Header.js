@@ -2,6 +2,7 @@ import {TableComponent} from '@core/TableComponent'
 import {changeTitle} from '@/store/actions'
 import {$} from '@core/dom'
 import {defaultTitle} from '@/constants'
+import {debounce} from '@core/Utils'
 
 
 export class Header extends TableComponent {
@@ -13,6 +14,11 @@ export class Header extends TableComponent {
       listeners: ['input'],
       ...options
     })
+  }
+
+
+  prepare() {
+    this.onInput = debounce(this.onInput, 300)
   }
 
   toHTML() {
