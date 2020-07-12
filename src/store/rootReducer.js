@@ -1,7 +1,7 @@
 import {
   CHANGE_TEXT,
   CHANGE_STYLE,
-  TABLE_RESIZE, APPLY_STYLE,
+  TABLE_RESIZE, APPLY_STYLE, CHANGE_TITLE,
 } from '@/store/types'
 
 export function rootReducer(state, action) {
@@ -41,6 +41,8 @@ export function rootReducer(state, action) {
           ...action.data.value
         }
       }
+    case CHANGE_TITLE:
+      return {...state, title: action.data}
     default: return state
   }
 }

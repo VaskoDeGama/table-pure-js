@@ -30,9 +30,9 @@ export class Formula extends TableComponent {
     })
   }
 
-  storeChanged({currentText}) {
-    this.$formula.text(currentText)
-  }
+  // storeChanged({currentText}) {
+  //   this.$formula.text(currentText)
+  // }
 
   onInput(event) {
     const text = $(event.target).text()
