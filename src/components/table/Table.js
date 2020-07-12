@@ -56,6 +56,7 @@ export class Table extends TableComponent {
   selectCell($cell) {
     this.selection.select($cell)
     this.$emit('table:select', $cell)
+    this.updateTextInStore($cell.text())
     const styles = $cell.getStyles(Object.keys(defaultStyles))
     this.$dispatch(actions.changeStyles(styles))
   }
