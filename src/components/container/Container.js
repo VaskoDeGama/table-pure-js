@@ -2,6 +2,7 @@ import {$} from '@core/dom'
 import {Observer} from '@core/Observer'
 import {StoreSubscriber} from '@core/StoreSubscriber'
 import {updateDate} from '@/store/actions'
+import {preventDefault} from '@core/Utils'
 
 export class Container {
   constructor( options) {
@@ -28,6 +29,9 @@ export class Container {
   }
 
   init() {
+    if (process.env.NODE_ENV === 'production') {
+      document.addEventListener('contextmenu', preventDefault)
+    }
     this.store.dispatch(updateDate())
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
@@ -36,5 +40,8 @@ export class Container {
   destroy() {
     this.subscriber.unsubscribeFromStore()
     this.components.forEach(component => component.destroy())
+    if (process.env.NODE_ENV === 'production') {
+      document.removeEventListener('contextmenu', preventDefault)
+    }
   }
 }
