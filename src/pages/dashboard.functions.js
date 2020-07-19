@@ -1,8 +1,13 @@
-function toHtml() {
+import {storage} from '@core/Utils'
+
+function toHtml(key) {
+  const model = storage(key)
+  const id = key.split(':')[1]
+  console.log(model)
   return `
         <li class="dash__record">
-          <a href="">Container with cats 1</a>
-          <strong>22.06.2020</strong>
+          <a href="#tcell/${id}">${model.title}</a>
+          <strong>12.12.2020</strong>
         </li>
 `
 }
