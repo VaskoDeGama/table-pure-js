@@ -1,6 +1,7 @@
 import {$} from '@core/dom'
 import {Observer} from '@core/Observer'
 import {StoreSubscriber} from '@core/StoreSubscriber'
+import {updateDate} from '@/store/actions'
 
 export class Container {
   constructor( options) {
@@ -27,6 +28,7 @@ export class Container {
   }
 
   init() {
+    this.store.dispatch(updateDate())
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
   }

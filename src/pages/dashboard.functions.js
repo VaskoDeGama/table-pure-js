@@ -3,11 +3,13 @@ import {storage} from '@core/Utils'
 function toHtml(key) {
   const model = storage(key)
   const id = key.split(':')[1]
-  console.log(model)
   return `
         <li class="dash__record">
           <a href="#tcell/${id}">${model.title}</a>
-          <strong>12.12.2020</strong>
+          <strong>
+${new Date(model.date).toLocaleDateString()}
+${new Date(model.date).toLocaleTimeString()}
+          </strong>
         </li>
 `
 }
