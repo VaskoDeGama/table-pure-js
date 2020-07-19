@@ -1,10 +1,11 @@
 import {$} from '@core/dom'
 import {Observer} from '@core/Observer'
 import {StoreSubscriber} from '@core/StoreSubscriber'
+import {updateDate} from '@/store/actions'
+import {preventDefault} from '@core/Utils'
 
 export class Container {
-  constructor(selector, options) {
-    this.$el = $(selector)
+  constructor( options) {
     this.observer = new Observer()
     this.components = options.components || []
     this.store = options.store
@@ -27,8 +28,11 @@ export class Container {
     return $root
   }
 
-  render() {
-    this.$el.append(this.getRoot())
+  init() {
+    if (process.env.NODE_ENV === 'production') {
+      document.addEventListener('contextmenu', preventDefault)
+    }
+    this.store.dispatch(updateDate())
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
   }
@@ -36,5 +40,8 @@ export class Container {
   destroy() {
     this.subscriber.unsubscribeFromStore()
     this.components.forEach(component => component.destroy())
+    if (process.env.NODE_ENV === 'production') {
+      document.removeEventListener('contextmenu', preventDefault)
+    }
   }
 }
