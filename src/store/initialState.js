@@ -1,5 +1,5 @@
-import {storage} from '@core/Utils'
 import {defaultStyles, defaultTitle} from '@/constants'
+import {clone} from '@core/Utils'
 
 const defaultState = {
   title: defaultTitle,
@@ -18,6 +18,8 @@ const normalize = (state) => {
     currentText: ''
   }
 }
-export const initialState = storage('AppState')
-    ? normalize(storage('AppState'))
-    : defaultState
+
+
+export function normalizeInitialState(state) {
+  return state ? normalize(state) : clone(defaultState)
+}

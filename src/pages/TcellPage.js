@@ -1,6 +1,6 @@
 import {Page} from '@core/Page'
 import {createStore} from '@core/createStore'
-import {initialState} from '@/store/initialState'
+import {normalizeInitialState} from '@/store/initialState'
 import {rootReducer} from '@/store/rootReducer'
 import {debounce, storage} from '@core/Utils'
 import {Container} from '@/components/container/Container'
@@ -9,14 +9,20 @@ import {Toolbar} from '@/components/toolbar/Toolbar'
 import {Formula} from '@/components/formula/Formula'
 import {Table} from '@/components/table/Table'
 
+function storageName(params) {
+  return `tcell:${params}`
+}
+
 export class TcellPage extends Page {
   getRoot() {
+    const params = this.params ? this.params : Date.now().toString()
+
+    const state = storage(storageName(params))
+    const initialState = normalizeInitialState(state)
     const store = createStore(rootReducer, initialState)
-    console.log(this.params)
 
     const stateListener = debounce( state => {
-      console.log('App storage:', state)
-      storage('AppState', state)
+      storage(storageName(params), state)
     }, 300)
 
     store.subscribe(stateListener)
