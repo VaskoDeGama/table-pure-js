@@ -12,7 +12,7 @@ import {Table} from '@/components/table/Table'
 export class TcellPage extends Page {
   getRoot() {
     const store = createStore(rootReducer, initialState)
-
+    console.log(this.params)
 
     const stateListener = debounce( state => {
       console.log('App storage:', state)
@@ -32,5 +32,9 @@ export class TcellPage extends Page {
 
   afterRender() {
     this.app.init()
+  }
+
+  destroy() {
+    this.app.destroy()
   }
 }
