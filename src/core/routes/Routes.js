@@ -1,5 +1,6 @@
 import {$} from '../dom'
 import {ActiveRoute} from './ActiveRoute'
+import {Loader} from '../../components/Loader'
 
 export class Routes {
   constructor(selector, routes = {}) {
@@ -7,6 +8,7 @@ export class Routes {
       throw new Error('Selector is not provided in Router')
     }
     this.page = null
+    this.loader = new Loader()
     this.$placeholder = $(selector)
     this.routes = routes
     this.changePageHandler = this.changePageHandler.bind(this)
@@ -19,16 +21,19 @@ export class Routes {
     this.changePageHandler()
   }
 
-  changePageHandler() {
+  async changePageHandler() {
     if (this.page) {
       this.page.destroy()
     }
-    this.$placeholder.clear()
+    this.$placeholder.clear().append(this.loader)
     const Page = ActiveRoute.path.includes('tcell') ?
         this.routes.tcell :
         this.routes.dashboard
+
+
     this.page = new Page(ActiveRoute.param)
-    this.$placeholder.append(this.page.getRoot())
+    const root = await this.page.getRoot()
+    this.$placeholder.clear().append(root)
     this.page.afterRender()
   }
 
